@@ -99,24 +99,22 @@ public class BasicDB extends DB
 	{
 		delay();
 
-		if (verbose)
-		{
-			System.out.print("READ "+table+" "+key+" [ ");
-			if (fields!=null)
-			{
-				for (String f : fields)
-				{
-					System.out.print(f+" ");
+		/*
+		 * 	If BasicDB is used with multiple threads, multiple print and/or println calls lead to output
+		 *  that is mixed between multiple threads and, therefore, hard to impossible to parse.
+		 */
+		if (verbose) {
+			String s = "";
+			if (fields!=null) {
+				for (String f : fields) {
+					s+= f+ " ";
 				}
+			} else {
+				s += "<all fields>";
 			}
-			else
-			{
-				System.out.print("<all fields>");
-			}
-
-			System.out.println("]");
+			System.out.println("READ " +table+ " " +key+ " [" +s+ "]");
 		}
-
+		
 		return 0;
 	}
 	
@@ -134,22 +132,16 @@ public class BasicDB extends DB
 	{
 		delay();
 
-		if (verbose)
-		{
-			System.out.print("SCAN "+table+" "+startkey+" "+recordcount+" [ ");
-			if (fields!=null)
-			{
-				for (String f : fields)
-				{
-					System.out.print(f+" ");
+		if (verbose) {
+			String s = "";
+			if (fields!=null) {
+				for (String f : fields) {
+					s+= f+ " ";
 				}
+			} else {
+				s += "<all fields>";
 			}
-			else
-			{
-				System.out.print("<all fields>");
-			}
-
-			System.out.println("]");
+			System.out.print("SCAN "+table+" "+startkey+" "+recordcount+" [" +s+ "]");
 		}
 
 		return 0;
@@ -171,14 +163,15 @@ public class BasicDB extends DB
 		if (verbose)
 		{
 			System.out.print("UPDATE "+table+" "+key+" [ ");
+			String s = "";
 			if (values!=null)
 			{
 				for (String k : values.keySet())
 				{
-					System.out.print(k+"="+values.get(k)+" ");
+					s += k+"="+values.get(k)+" ";
 				}
 			}
-			System.out.println("]");
+			System.out.print("UPDATE "+table+" "+key+" [" +s+ "]");
 		}
 
 		return 0;
@@ -199,16 +192,16 @@ public class BasicDB extends DB
 
 		if (verbose)
 		{
-			System.out.print("INSERT "+table+" "+key+" [ ");
+			String s = "";
 			if (values!=null)
 			{
 				for (String k : values.keySet())
 				{
-					System.out.print(k+"="+values.get(k)+" ");
+					s += k+"="+values.get(k)+" ";
 				}
 			}
 
-			System.out.println("]");
+			System.out.print("INSERT "+table+" "+key+" [" +s+ "]");
 		}
 
 		return 0;
